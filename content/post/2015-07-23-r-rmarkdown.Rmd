@@ -16,11 +16,12 @@ library(dplyr)
 ```
 
 # Abstract
-abstract: The highest level of eduction an individual has completed may affect manythings,including his interest level in the 2019 federal election.In this report,weuse the 2019 CES dataset,which was created based on a non-probability survey takenfor 2019 federal election.By manipulating the data within the dataset,I have foundthat high level of education is associated with high level of interest in the election.Our
+The highest level of eduction an individual has completed may affect manythings,including his interest level in the 2019 federal election.In this report,weuse the 2019 CES dataset,which was created based on a non-probability survey takenfor 2019 federal election.By manipulating the data within the dataset,I have foundthat high level of education is associated with high level of interest in the election.Our
 findings have implications for understanding the potential audience for the election.
 
 # Introduction
 We use @citetidyverse
+
 The 2019 federal election in Canada draws the the eyes of people around the world.While people do not usually have similar attitudes towards the election because they have different experiences.In this report,we study the dataset named CES2019_WEB,which was extracted from 2019 Canadian Election Study.Hence,we can get to know how the characteristics associated with the participants influence their views toward election.My findings may give suggestions to people who work on election advertisement.
 
 This report is mainly based on two variables.Firstly,The variable,CPS19_INTEREST_ELXN_1,is a discrete numerical variable and it records the how interested the participants are in the 2019 federal election.Secondly,CES19_EDUCATION, is an ordinal categorical variable and it records the education level of each participant.WE have found that the education level one has completed is correlated with their interest level towards election.To be more specific,the higher education level one has reached,the greater interest he may show towards the election.
