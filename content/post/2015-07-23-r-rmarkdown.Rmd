@@ -1,0 +1,139 @@
+---
+title: "Education background of an individual predicts how interested he is in the 2019 federal election."
+author: "Xi Zhang"
+date: "2020/9/11"
+bibliography: "reference.bib"
+categories: ["R"]
+tags: ["R Markdown", "plot", "regression"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages("tidyverse")
+library(tidyverse)
+install.packages("dplyr")
+library(dplyr)
+```
+
+# Abstract
+abstract: The highest level of eduction an individual has completed may affect manythings,including his interest level in the 2019 federal election.In this report,weuse the 2019 CES dataset,which was created based on a non-probability survey takenfor 2019 federal election.By manipulating the data within the dataset,I have foundthat high level of education is associated with high level of interest in the election.Our
+findings have implications for understanding the potential audience for the election.
+
+# Introduction
+We use @citetidyverse
+The 2019 federal election in Canada draws the the eyes of people around the world.While people do not usually have similar attitudes towards the election because they have different experiences.In this reprot,we study the dataset named CES2019_WEB,which was extracted from 2019 Canadian Election Study.Hence,we can get to know how the characteristics associated with the participants influence their views toward election.
+
+This report is mainly based on two variables.Firstly,The variable,cps19_interest_elxn_1,is a discrete numerical variable and it records the how interested the participants are in the 2019 federal election.Secondly,ces19_education is an ordinal categorical variable and it records the education level of each participant.WE have found that the education level one has completed is correlated with their interest level towards election.To be more specific,the higher education level one has reached,the greater interest he may show towards the election.
+
+The first part of my reprot is Data section.At the beginning,it remarks the source and description of my dataset.Then,it includes the basic information and summary statistics of my interesting variables.The Graph sector includes two graphs based on the chosen variables.Then,the Discussion sector describes my findings from the graphs,features of variables and the implications of the study.Furthermore,the weaknesses associated with my data and the ideas to solve overcome them are specified in the sectors "Weaknesses" and "Next steps",respectively.Finally,the references of the dataset are concluded in the sector of "References".
+
+
+#Data
+The dataset called ces2019_web is extracted from the 2019 Election Study.The data within it is collected from a non-probability survey conducted around Canada for 2019 federal election.It records the personal information of the participants(gender,citizenship and education level,etc.).Also,it records the participants' attitudes toward the election-related issues(parties of popular competitors and the new political policies regarding the election)
+
+```{r}
+install.packages("devtools")
+devtools::install_github("hodgettsp/cesR")
+library(cesR)
+library(labelled)
+cesR::get_ces("ces2019_web")
+ces2019_web<-to_factor(ces2019_web)
+head(ces2019_web)
+```
+
+
+Here is the preview of the dataset called ces2019_web.It contains 620 variables in total.A large fraction of them are categorical,a small part are numerical.
+
+## Summary Statistics
+
+The variable,cps19_interest_elxn_1,is a discrete numerical variable and it records the how interested the participants are in the 2019 federal election.We observe that this variable contains missing values.After filtering these values out,we find that the interest level of participants ranges from 0 to 10(from"Not interested" to "Very interested").The 25th percentile of this variable is 6,the median is 8,and the 75th percentile is 9.In addition,the mean of the variable is 7.08,which is smaller than the median.This implies that the plot showing the distribution of the interest level may be left-skewed.Furthermore,the standard deviation of this variable is 2.475382.
+
+Moreover,ces19_education is an ordinal categorical variable and it records the education level of each participant.We observe that some participants do not want to tell their education levels and they leave their answers as"Don't know/ Prefer not to answer".After removing these observations,we find that the highest education level completed by the participants is "profession/doctorate degree" and the lowest is "No Schooling"
+
+For the variable of ces2019_education,I want to specify that there are 11 different education levels within it.If we rank them from low to high,it will be:
+No schooling	
+Some elementary school	
+Completed elementary school	
+Some secondary/ high school	
+Completed secondary/ high school	
+Some technical, community college, CEGEP, College Classique	
+Completed technical, community college, CEGEP, College Classique	
+Some university	
+Bachelor's degree	
+Master's degree
+Profession/doctorate degree
+
+
+#Graph
+
+```{r}
+ces2019_web %>%
+  ggplot(aes(x=cps19_interest_elxn_1))+
+  geom_histogram(bins = 20)+
+labs(x="interest level",
+       y="Number",
+       title="Distribution of interest level in 2019 CES(Gragh 1)",
+       caption="Source:http://www.ces-eec.ca")
+```
+```{r}
+ces2019_web %>%
+  ggplot(aes(x=cps19_education,y=cps19_interest_elxn_1))+
+  geom_boxplot()+
+labs(x="Education level",
+       y="interest level",
+       title="Connnection between Interest level and education level(Graph 2)",
+       caption="Source:http://www.ces-eec.ca")
+```
+
+```{r}
+Additional_table<-ces2019_web%>%count(cps19_education)
+Additional_table
+```
+The education level on the X-axis is increasing from left to right(From "No Schooling" to "professional/doctorate degree").The specific order is same as the order in additional table
+
+
+
+#Discussion
+
+##Graph 1 discussion
+(In graph 1,the education level is increasing from left to right/from "No Schooling" to "professional/doctorate degree ".The specific order is same as the order shown in additional table,while we neglect the sector of "Don't know/ Prefer not to answer")
+The graph 1 demonstrates the distribution of scores given by participants on "how interested are you in the federal election".Its shape is obviously left-skewed.This implies the majority of the participants in the survey give very high scores when answering the question.To be more specific,they rate their interest levels from 7 to 10.The other important thing is that the most of the participants rate their interest at 8.0,while the least of them rate the interest at 0.
+
+##Graph 2 discussion.
+
+(In graph 2,the education level is increasing from left to right/from "No Schooling" to "professional/doctorate degree".The specific order is same as the order shown in additional table,while we neglect the sector of "Don't know/ Prefer not to answer" )
+The graph 2 is a boxplot and it has "Education level"on the X-axis and "interest level" on the Y-axis.The variable of "Education level" contains 11 groups of participants.Each group represents a specific education level.From the plot,we observe that the average interest level is going up due to the increase in the education level associated with participants(average does not strictly increase,there are some ties).In addition,as the education level increases,the lower quantile associated with box is becoming higher while the upper quantile does not obviously differ.This implies that the participants within the groups representing higher education levels have their interest levels more concentrated and they are more interested in the election than the participants completed low-level education.
+
+If we put the two findings above together,we can conclude that the higher education background one has obtained,the greater interest he may show towards the federal election.
+
+
+##Additional table
+
+If we combine the additional table with the other two plots,we can find that:
+
+Education level                               Median of interest level
+Completed secondary/ high school                        7.0
+Completed technical, community college,etc              8.0
+Bachelor's Degree                                       8.0
+
+These three groups are the top 3 largest groups in the survey.The medians tell us that fifty percent of participants obtaining "Completed secondary/ high school"rate their interest level above 7.Similarly,50% people within the other two groups rate above 8.This situation can explain why the distribution of interest levels is left skewed and most of the participants rate their interest levels above 7.
+
+
+#Weaknesses:
+1.During the process to find the relationship between the education level of the participants and how interested they are in elction,I have found an issue that people who have same education background may have obviously different attitudes towards election.For example,in the group of "No Schooling",the interest level ranges from 2 to 8.This means that although this group of people have similar education,some of them care very less about election,some are very cordial about it.Such situation seems weird and may affect the final conclusion for the "No Schooling"group.
+
+2.In addition,only a small fraction of participants have specific education background.For example,participants who obtain the professional/doctorate degree account for less than 1% of total participants.Such situation is not beneficial because insufficient data may lead to conclusion that is not persuasive.
+#Next steps:
+In order to reduce the impact of weaknesses on the result,I will make some amendments in the next steps.Firstly,I will filter out the participants who give very low mark or very high mark when answering"how are you interested in the federal election".This can effectively reduce the outliers and make sure the conclusion is relatively accurate.To solve the second issue,I will try to look for more information regarding the people with specific education background(ex.doctoral degree)and add them to the current dataset.On the other hand,removing the small groups may be applicable as well,but this may reduce the diversity of the data.
+
+
+
+#References
+Stephenson, Laura B; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2020, '2019 Canadian Election Study - Online Survey', https://doi.org/10.7910/DVN/DUS88V, Harvard Dataverse, V1
+
+LINK: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DUS88V
+
+
+
+
+
